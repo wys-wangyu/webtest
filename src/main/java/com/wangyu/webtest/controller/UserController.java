@@ -12,7 +12,7 @@ public class UserController {
     @GetMapping(value = "/say")
     @ResponseBody
     public String say(@RequestParam(value="name") String name) {
-        return "hello " + name + "!!!";
+        return "hello " + name + ", Success!!!";
     }
 
 
