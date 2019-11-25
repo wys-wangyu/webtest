@@ -9,9 +9,9 @@ RUN echo "deb http://mirrors.aliyun.com/debian stretch main contrib non-free" >>
     && echo "deb http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list \
     && echo "deb http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-VOLUME /tmp
 
-ADD webtest-0.0.1-SNAPSHOT.jar app.jar
+VOLUME /tmp
+ADD ${JAR_FILE} app.jar
 RUN sh -c 'touch /app.jar'
 ENV JAVA_OPTS=""
 ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
