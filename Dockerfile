@@ -4,14 +4,14 @@
 # @see: https://spring.io/guides/gs/spring-boot-docker/#_containerize_it
 # =====================================================================
 FROM openjdk:8-jdk
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak
 RUN echo "deb http://mirrors.aliyun.com/debian stretch main contrib non-free" >> /etc/apt/sources.list \
     && echo "deb http://mirrors.aliyun.com/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list \
     && echo "deb http://mirrors.aliyun.com/debian-security stretch/updates main contrib non-free" >> /etc/apt/sources.list
-RUN echo "Asia/Shanghai" > /etc/timezone
-RUN apt-get update && apt-get install -y tzdata && dpkg-reconfigure -f noninteractive tzdata
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 VOLUME /tmp
-ARG DEPENDENCY=target/dependency
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-cp","app:app/lib/*","com.wangyu.webtest.WebtestApplication"]
+
+ADD webtest-0.0.1-SNAPSHOT.jar app.jar
+RUN sh -c 'touch /app.jar'
+ENV JAVA_OPTS=""
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
