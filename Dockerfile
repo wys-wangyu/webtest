@@ -11,8 +11,8 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.8/main/" > /etc/apk/repositories 
   && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone \
   && apk del tzdata
 VOLUME /tmp
-RUN echo ${JAR_FILE} >> ~/123.txt
-ADD ${JAR_FILE} app.jar
+RUN echo ${JAR_FILE} 
+ADD webtest-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'
 ENV JAVA_OPTS=""
 ENTRYPOINT [ "sh", "-c", "java -jar $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom /app.jar" ]
